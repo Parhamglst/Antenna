@@ -11,6 +11,24 @@ std = normalisation_params['std']
 X = loadmat('./data/x5000c.mat')['A']
 y = loadmat('./data/y5000c.mat')['zar']
 
+# import matplotlib.pyplot as plt
+
+# plt.figure(figsize=(12, 5))
+# plt.subplot(1, 2, 1)
+# plt.hist(y[:, 0], bins=30, edgecolor='black')
+# plt.xlabel('Target Value 1')
+# plt.ylabel('Frequency')
+# plt.title('Distribution of Target 1')
+
+# plt.subplot(1, 2, 2)
+# plt.hist(y[:, 1], bins=30, edgecolor='black')
+# plt.xlabel('Target Value 2')
+# plt.ylabel('Frequency')
+# plt.title('Distribution of Target 2')
+
+# plt.tight_layout()
+# plt.show()
+
 X = X.reshape(-1, 4, 4)  # Reshape to (N, C, H, W) format for CNN input
 dataset = utils.dataset.EMDesignDataset(X, y)
 train_size = int(0.8 * len(dataset))

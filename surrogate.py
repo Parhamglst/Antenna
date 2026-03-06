@@ -45,18 +45,18 @@ class MLPSurrogate(nn.Module):
         self.network = nn.Sequential(
             nn.Flatten(),
             
-            nn.Linear(input_dim, 256),
-            nn.BatchNorm1d(256),
+            nn.Linear(input_dim, 64),
+            nn.BatchNorm1d(64),
             nn.ReLU(),
             nn.Dropout(0.1),
             
-            nn.Linear(256, 128),
+            nn.Linear(64, 32),
             nn.ReLU(),
             
-            nn.Linear(128, 64),
+            nn.Linear(32, 16),
             nn.ReLU(),
             
-            nn.Linear(64, output_dim)
+            nn.Linear(16, output_dim)
         )
 
     def forward(self, x):
@@ -66,7 +66,8 @@ class MLPSurrogate(nn.Module):
 def train_model(model, train_loader, val_loader, y_mean, y_std, epochs=200, lr=1e-3, device='cpu'):
     model = model.to(device)
     
-    criterion = nn.MSELoss(reduction='none')
+    # criterion = nn.MSELoss(reduction='none')
+    criterion = nn.HuberLoss(delta=1.0)
     optimizer = optim.Adam(model.parameters(), lr=lr, weight_decay=1e-4)
     early_stopping = EarlyStopping(patience=20, min_delta=1e-4)
 
